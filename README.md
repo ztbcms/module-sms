@@ -64,8 +64,8 @@ content
     $content = [
         //短信必备的参数
         'aliyun' => [
-            'access_id' => 'LTAI4G1v3afpiCUcndBBT4Qj',
-            'access_key' => 'MmZRh6IUMZiACWrmp44Dzi3nVqbZkA',
+            'access_id' => '',
+            'access_key' => '',
             'sign' => '拉货么',
             'template' => 'SMS_203350013',
             'content' => [
