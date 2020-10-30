@@ -51,6 +51,8 @@
             <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button type="primary" size="mini" @click="textsms(scope.row.alias)">发送测试短信</el-button>
+
+                    <el-button type="danger" size="mini" @click="delsms(scope.row.id)">删除短信</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -88,6 +90,23 @@
                             if (res.status) {
                                 that.tableData = res.data.template;
                             }
+                        }
+                    });
+                },
+                //删除短信
+                delsms :function (id) {
+                    var that = this;
+                    $.ajax({
+                        url: "{:api_url('/sms/Admin/template')}",
+                        data: {
+                            id : id,
+                            action : 'delsms',
+                            platform : "{$_GET['platform']}"
+                        },
+                        type: 'get',
+                        dataType: 'json',
+                        success: function (res) {
+                            that.getList();
                         }
                     });
                 },

@@ -56,6 +56,10 @@ class Admin extends AdminController
         if ($action == 'ajaxList') {
             $className = "\\app\\sms\\platform\\{$platform}\\Helper";
             return json((new $className)->getTemplateList());
+        } else if ($action == 'delsms') {
+            $id = input('id', '', 'trim');
+            $className = "\\app\\sms\\platform\\{$platform}\\Helper";
+            return json((new $className)->delTemplate($id));
         } else {
             return view();
         }
@@ -81,7 +85,7 @@ class Admin extends AdminController
                 ],
                 'timeout' => 5
             ];
-            return json((new EasySms($config))->aliasSend($alias,$area_code,$phone,$content));
+            return json((new EasySms($config))->aliasSend($alias, $area_code, $phone, $content));
         } else {
             return view();
         }
@@ -90,14 +94,15 @@ class Admin extends AdminController
     /**
      * 模板详情
      */
-    public function templateDetails(){
+    public function templateDetails()
+    {
         $action = input('action', '', 'trim');
         $platform = input('platform', '', 'trim');
         if ($action == 'getTableParameters') {
             //获取表参数
             $className = "\\app\\sms\\platform\\{$platform}\\Helper";
             return json((new $className)->getTableParameters());
-        } else if($action == 'addTableParameters') {
+        } else if ($action == 'addTableParameters') {
             //添加新模板
             $tableData = input('table');
             $className = "\\app\\sms\\platform\\{$platform}\\Helper";
@@ -106,12 +111,14 @@ class Admin extends AdminController
         return view('templateDetails');
     }
 
+
     /**
      * 短信日志
      */
-    public function smsLog(){
+    public function smsLog()
+    {
         $action = input('action', '', 'trim');
-        if($action == 'ajaxList') {
+        if ($action == 'ajaxList') {
             //获取列表信息
             $page = input('page', '', 'trim');
             $limit = input('limit', '', 'trim');
@@ -126,7 +133,7 @@ class Admin extends AdminController
                 'limit' => $limit,
                 'total_page' => $total_page,
             ];
-            return json(self::createReturn(true,$data));
+            return json(self::createReturn(true, $data));
         } else {
             return view('smsLog');
         }

@@ -38,6 +38,13 @@ abstract class Sms
     abstract public function addTemplate($tableData = []);
 
     /**
+     * 删除模板信息
+     * @param int $id
+     * @return mixed
+     */
+    abstract public function delTemplate($id = 0);
+
+    /**
      * 获取模板列表
      * @return mixed
      */

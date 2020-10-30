@@ -10,6 +10,9 @@ CREATE TABLE `cms_sms_aliyun`  (
   `template` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '短信模版 Code',
   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '模板内容',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模板别名',
+  `create_time` int(11) UNSIGNED NULL DEFAULT 0 COMMENT '创建时间',
+  `update_time` int(11) UNSIGNED NULL DEFAULT 0 COMMENT '更新时间',
+  `delete_time` int(11) UNSIGNED NULL DEFAULT 0 COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

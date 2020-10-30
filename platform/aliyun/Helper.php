@@ -176,6 +176,7 @@ class Helper extends Sms
         $template = [];
         foreach ($AliyunModel->select() as $k => $v) {
             $template[] = [
+                'id' => $v['id'],
                 'access_id' => $v['access_id'],
                 'access_key' => $v['access_key'],
                 'sign' => $v['sign'],
@@ -206,6 +207,24 @@ class Helper extends Sms
     }
 
     /**
+     * 删除模板信息
+     * @param int $id
+     * @return \think\response\Json
+     */
+    public function delTemplate($id = 0){
+        $AliyunModel = new AliyunModel();
+        $aliyun = $AliyunModel::where('id', $id)->findOrEmpty();
+        if ($aliyun->isEmpty()) {
+            return json(Common::createReturn(false, [], '找不到删除信息'));
+        }
+        if ($aliyun->delete()) {
+            return json(Common::createReturn(true, [], '删除成功'));
+        } else {
+            return json(Common::createReturn(false, [], '删除失败'));
+        }
+    }
+
+    /**
      * 获取表参数
      * @return array|mixed
      */
@@ -214,7 +233,12 @@ class Helper extends Sms
         $parameters_list = Db::query("show COLUMNS FROM {$prefix}sms_aliyun");
         $parameters = [];
         foreach ($parameters_list as $k => $v) {
-            if($v['Field'] != 'id') {
+            if(
+                $v['Field'] != 'id' &&
+                $v['Field'] != 'create_time' &&
+                $v['Field'] != 'update_time' &&
+                $v['Field'] != 'delete_time'
+            ) {
                 $parameters[] = [
                     'name' => $v['Field'],
                     'val' => ''
@@ -225,6 +249,7 @@ class Helper extends Sms
             'parameters' => $parameters
         ], '获取成功');
     }
+
 
 
 }
