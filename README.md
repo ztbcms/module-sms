@@ -77,3 +77,11 @@ content
     
 demo 可参考  sms/Api/textApi          
 ```
+
+##### 三 ： 附加常用功能
+
+|接口|功能|
+|-|-|
+|{{domain}}/home/sms/wxpay/sendVerification|发送短信验证码
+|{{domain}}/home/sms/wxpay/checkVerificationCode|校验短信验证码
+|{{domain}}/home/sms/wxpay/writeVerification|核销短信验证码 

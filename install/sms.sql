@@ -58,3 +58,18 @@ CREATE TABLE `cms_sms_log`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE `cms_sms_verification_code`  (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `phone_code` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '手机区号',
+  `phone_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '手机号',
+  `sendtime` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发送时间',
+  `result` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '发送的结果',
+  `send_status` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发送状态 是否发送成功 0为未成功',
+  `is_used` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '是否已经使用 0为未使用',
+  `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '短信类型   forget  忘记密码  register 注册',
+  `create_time` int(11) UNSIGNED NULL DEFAULT 0 COMMENT '创建时间',
+  `update_time` int(11) UNSIGNED NULL DEFAULT 0 COMMENT '更新时间',
+  `delete_time` int(11) UNSIGNED NULL DEFAULT 0 COMMENT '删除时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
