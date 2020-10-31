@@ -3,10 +3,10 @@
         <el-col :sm="24" :md="18">
             <template>
                 <div>
-                    <el-form ref="elForm" :model="formData"  size="medium" label-width="100px">
+                    <el-form ref="elForm" :model="formData"  size="medium" label-width="150px">
 
                         <div v-for="(v, k) in table">
-                            <el-form-item :label="v.name" prop="area_code">
+                            <el-form-item :label="v.remarks" prop="area_code">
                                 <el-input v-model="table[k].val" :placeholder="v.name" clearable
                                           :style="{width: '100%'}"></el-input>
                             </el-form-item>

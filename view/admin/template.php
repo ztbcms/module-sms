@@ -12,41 +12,10 @@
                 highlight-current-row
                 style="width: 100%;"
         >
-            <el-table-column label="别名" align="">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.alias }}</span>
-                </template>
-            </el-table-column>
 
-            <el-table-column label="access_id" align="center">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.access_id }}</span>
-                </template>
-            </el-table-column>
-
-            <el-table-column label="access_key" align="">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.access_key }}</span>
-                </template>
-            </el-table-column>
-
-            <el-table-column label="内容" align="">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.content }}</span>
-                </template>
-            </el-table-column>
-
-            <el-table-column label="sign" align="">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.sign }}</span>
-                </template>
-            </el-table-column>
-
-            <el-table-column label="template" align="">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.template }}</span>
-                </template>
-            </el-table-column>
+            <div v-for="(v, k) in table">
+                <el-table-column :label="v.remarks" align="" :prop="v.name"></el-table-column>
+            </div>
 
             <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
@@ -64,6 +33,7 @@
         new Vue({
             el: '#app',
             data: {
+                table : [],
                 tableKey: 0,
                 tableData: [],
                 total: 0,
@@ -92,6 +62,22 @@
                             }
                         }
                     });
+                },
+                //获取详情
+                getTableDetails :function () {
+                    var that = this;
+                    $.ajax({
+                        url: "{:api_url('/sms/Admin/templateDetails')}",
+                        data: {
+                            action : "getTableParameters",
+                            platform : "{$_GET['platform']}"
+                        },
+                        type: "post",
+                        dataType: 'json',
+                        success: function (res) {
+                            that.table = res.data.parameters;
+                        }
+                    })
                 },
                 //删除短信
                 delsms :function (id) {
@@ -134,7 +120,11 @@
                 }
             },
             mounted: function () {
+
+                this.getTableDetails();
+
                 this.getList();
+
             }
         })
     })

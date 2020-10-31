@@ -230,7 +230,7 @@ class Helper extends Sms
      */
     public function getTableParameters(){
         $prefix = config('database.connections.mysql.prefix');
-        $parameters_list = Db::query("show COLUMNS FROM {$prefix}sms_aliyun");
+        $parameters_list = Db::query("show full fields from {$prefix}sms_aliyun");
         $parameters = [];
         foreach ($parameters_list as $k => $v) {
             if(
@@ -241,7 +241,8 @@ class Helper extends Sms
             ) {
                 $parameters[] = [
                     'name' => $v['Field'],
-                    'val' => ''
+                    'val' => '',
+                    'remarks' => $v['Comment'] ?: $v['Field']
                 ];
             }
         }
