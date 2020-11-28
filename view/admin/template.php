@@ -4,7 +4,7 @@
             <el-col :span="5"><h3>模板列表</h3></el-col>
         </el-row>
 
-        <el-button type="primary" size="mini" @click="templateDetails()">新增模板</el-button>
+        <el-button type="primary" size="mini" @click="templateDetails(0)">新增模板</el-button>
 
         <el-table
                 :key="tableKey"
@@ -19,9 +19,14 @@
 
             <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button type="primary" size="mini" @click="textsms(scope.row.alias)">发送测试短信</el-button>
 
-                    <el-button type="danger" size="mini" @click="delsms(scope.row.id)">删除短信</el-button>
+                    <div style="margin-bottom: 5px;">
+                        <el-button type="primary" size="mini" @click="templateDetails(scope.row.id)">编辑</el-button>
+                        <el-button type="danger" size="mini" @click="delsms(scope.row.id)">删除短信</el-button>
+                    </div>
+
+                    <el-button type="success" size="mini" @click="textsms(scope.row.alias)">测试</el-button>
+
                 </template>
             </el-table-column>
         </el-table>
@@ -70,7 +75,7 @@
                         url: "{:api_url('/sms/Admin/templateDetails')}",
                         data: {
                             action : "getTableParameters",
-                            platform : "{$_GET['platform']}"
+                            platform : "{$_GET['platform']}",
                         },
                         type: "post",
                         dataType: 'json',
@@ -102,8 +107,9 @@
                     this.__link(url);
                 },
                 //模板详情
-                templateDetails :function () {
+                templateDetails :function (id) {
                     var url = '{:api_url("/sms/Admin/templateDetails")}&platform='+"{$_GET['platform']}";
+                    url += '&id=' + id;
                     this.__link(url);
                 },
                 __link :function (url) {

@@ -6,7 +6,7 @@
                     <el-form ref="elForm" :model="formData"  size="medium" label-width="150px">
 
                         <div v-for="(v, k) in table">
-                            <el-form-item :label="v.remarks" prop="area_code">
+                            <el-form-item v-show="v.name != 'id'" :label="v.remarks" prop="">
                                 <el-input v-model="table[k].val" :placeholder="v.name" clearable
                                           :style="{width: '100%'}"></el-input>
                             </el-form-item>
@@ -52,7 +52,8 @@
                         url: "{:api_url('/sms/Admin/templateDetails')}",
                         data: {
                             action : "getTableParameters",
-                            platform : "{$_GET['platform']}"
+                            platform : "{$_GET['platform']}",
+                            id : "{$_GET['id']}"
                         },
                         type: "post",
                         dataType: 'json',
