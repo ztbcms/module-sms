@@ -23,7 +23,7 @@ class Admin extends AdminController
         if ($action == 'ajaxList') {
             $PlatformModel = new PlatformModel();
             $list = $PlatformModel->select();
-            return json(self::createReturn(true, $list));
+            return json(createReturn(true, $list));
         } else {
             return view();
         }

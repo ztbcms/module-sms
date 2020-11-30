@@ -174,7 +174,7 @@ class Helper extends Sms
     {
         $AliyunModel = new AliyunModel();
         $template = [];
-        foreach ($AliyunModel->select() as $k => $v) {
+        foreach ($AliyunModel->order('id desc')->select() as $k => $v) {
             $template[] = [
                 'id' => $v['id'],
                 'access_id' => $v['access_id'],
@@ -196,13 +196,21 @@ class Helper extends Sms
      * @return array|mixed
      */
     public function addTemplate($tableData = []){
-        $addData = [];
+        $data = [];
         foreach ($tableData as $k => $v){
-            if(!$v['val'])  return Common::createReturn(false, [], '对不起，'.$v['name'].'不能为空');
-            $addData[$v['name']] = $v['val'];
+            if($v['name'] != 'id') {
+                if(!$v['val'])  return Common::createReturn(false, [], '对不起，'.$v['name'].'不能为空');
+            }
+            $data[$v['name']] = $v['val'];
         }
-        $AliyunModel = new AliyunModel();
-        $AliyunModel->insert($addData);
+
+        if(isset($data['id']) && $data['id'] > 0) {
+            $AliyunModel = new AliyunModel();
+            $AliyunModel->where('id','=',$data['id'])->update($data);
+        } else {
+            $AliyunModel = new AliyunModel();
+            $AliyunModel->insert($data);
+        }
         return Common::createReturn(true, [], '操作成功');
     }
 
@@ -229,19 +237,32 @@ class Helper extends Sms
      * @return array|mixed
      */
     public function getTableParameters(){
+
+        $id = input('id','','trim');
+        if($id) {
+            $AliyunModel = new AliyunModel();
+            $AliyunDetails = $AliyunModel->where(['id'=>$id])->find()->toArray();
+        } else {
+            $AliyunDetails = [];
+        }
+
         $prefix = config('database.connections.mysql.prefix');
         $parameters_list = Db::query("show full fields from {$prefix}sms_aliyun");
         $parameters = [];
         foreach ($parameters_list as $k => $v) {
             if(
-                $v['Field'] != 'id' &&
                 $v['Field'] != 'create_time' &&
                 $v['Field'] != 'update_time' &&
                 $v['Field'] != 'delete_time'
             ) {
+                if(isset($AliyunDetails[$v['Field']])) {
+                    $val = $AliyunDetails[$v['Field']];
+                } else {
+                    $val = '';
+                }
                 $parameters[] = [
                     'name' => $v['Field'],
-                    'val' => '',
+                    'val' => $val,
                     'remarks' => $v['Comment'] ?: $v['Field']
                 ];
             }
